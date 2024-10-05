@@ -28,6 +28,15 @@ public class MovieServiceTest {
     }
 
     @Test
+    public void testGetMovieList() {
+        List<String> result = movieService.getMovies(movieService.getMovieList());
+        for (String movieName : result) {
+            System.out.println(movieName);
+        }
+        assertNotNull(result);
+    }
+
+    @Test
     public void testMovieListContainsInception() {
         List<Movie> movieList = movieService.getMovieList();
         boolean hasInception = movieList.stream().anyMatch(movie -> movie.getTitle().equals("Inception"));
@@ -47,8 +56,8 @@ public class MovieServiceTest {
     public void testAddRemoveMovieToUserFavourites() {
         User user = new User();
         user.setEmail("test@test.com");
-        assertTrue(movieService.addMovieToUserFavourites(movieService.getMovieByTitle("Inception"), user));
-        assertTrue(movieService.removeMovieToUserFavourites(movieService.getMovieByTitle("Inception"), user));
+        assertTrue(movieService.addMovieToUserFavourites(movieService.getMovieByTitle("Inception").getTitle(), user));
+        assertTrue(movieService.removeMovieToUserFavourites(movieService.getMovieByTitle("Inception").getTitle(), user));
     }
 
 }

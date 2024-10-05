@@ -43,9 +43,11 @@ public class UserService {
     public User loginUser(String email) {
         for (User user : users) {
             if (user.getEmail().equals(email)) {
+                System.out.println("Login successful");
                 return user;
             }
         }
+        System.out.println("No user exist!");
         return null;
     }
 

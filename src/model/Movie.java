@@ -3,12 +3,12 @@ package model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 @Getter
 @Setter
 public class Movie {
-    private int id;
     private String title;
     private List<String> casts;
     private String category;
@@ -17,13 +17,10 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "Movie{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", casts=" + casts +
-                ", category='" + category + '\'' +
-                ", releaseDate=" + releaseDate +
-                ", budget=" + budget +
-                '}';
+        return  "title='" + title + "'\n" +
+                "casts=" + casts.toString() + "'\n" +
+                "category='" + category + "'\n" +
+                "releaseDate=" + releaseDate + "'\n" +
+                "budget=" + new DecimalFormat("##.##").format(budget) +"m";
     }
 }

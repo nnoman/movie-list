@@ -50,7 +50,6 @@ public class MovieService {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     Movie movie = new Movie();
-                    movie.setId(jsonObject.getInt("id"));
                     movie.setTitle(jsonObject.getString("title"));
                     List<String> actors = new ArrayList<>();
                     JSONArray actorsArray = jsonObject.getJSONArray("actors");
@@ -75,10 +74,38 @@ public class MovieService {
     }
 
 
+    public List<String> getMovies(List<Movie> movieList) {
+        return movieList.stream()
+                .sorted((m1, m2) -> m1.getTitle().toLowerCase().compareTo(m2.getTitle().toLowerCase()))
+                .map(Movie::getTitle)
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getMoviesByTitles(List<String> titles) {
+        List<String> foundMovies = new ArrayList<>();
+
+        for (String title : titles) {
+            boolean found = false;
+            for (Movie movie : movieList) {
+                if (movie.getTitle().equalsIgnoreCase(title)) {
+                    foundMovies.add(movie.getTitle());
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                System.out.println("Movie not found for title: " + title);
+            }
+        }
+
+        return foundMovies;
+    }
+
+
     public List<String> searchMovies(List<Movie> movieList, String keyword) {
         return movieList.stream()
                 .filter(movie -> movie.getTitle().toLowerCase().contains(keyword.toLowerCase())
-                    || movie.getCategory().toLowerCase().contains(keyword.toLowerCase()) ||
+                        || movie.getCategory().toLowerCase().contains(keyword.toLowerCase()) ||
                         movie.getCasts().stream()
                                 .anyMatch(cast -> cast.toLowerCase().contains(keyword.toLowerCase())))
                 .sorted((m1, m2) -> m1.getTitle().toLowerCase().compareTo(m2.getTitle().toLowerCase()))
@@ -88,32 +115,33 @@ public class MovieService {
 
     public Movie getMovieByTitle(String title) {
         for (Movie movie : movieList) {
-            if (movie.getTitle().toLowerCase().contains(title.toLowerCase())) {
+            if (movie.getTitle().equalsIgnoreCase(title)) {
                 return movie;
             }
         }
+        System.out.println("Movie not found");
         return null;
     }
 
-    public Boolean addMovieToUserFavourites(Movie movie, User user) {
-        List<Movie> favouriteMovies = user.getFavouriteMovies();
-        if(favouriteMovies.contains(movie)) {
-            System.out.println(movie.getTitle() + " is already in the favourite list");
+    public Boolean addMovieToUserFavourites(String title, User user) {
+        List<String> favouriteMovies = user.getFavouriteMovies();
+        if(favouriteMovies.contains(title)) {
+            System.out.println(title + " is already in the favourite list");
             return false;
         }
-        favouriteMovies.add(movie);
-        System.out.println(movie.getTitle() + " was added to the favourite list");
+        favouriteMovies.add(title);
+        System.out.println(title + " was added to the favourite list");
         return true;
     }
 
-    public Boolean removeMovieToUserFavourites(Movie movie, User user) {
-        List<Movie> favouriteMovies = user.getFavouriteMovies();
-        if(!favouriteMovies.contains(movie)) {
-            System.out.println(movie.getTitle() + " is not in the favourite list");
+    public Boolean removeMovieToUserFavourites(String title, User user) {
+        List<String> favouriteMovies = user.getFavouriteMovies();
+        if(!favouriteMovies.contains(title)) {
+            System.out.println(title + " is not in the favourite list");
             return false;
         }
-        favouriteMovies.remove(movie);
-        System.out.println(movie.getTitle() + " was removed to the favourite list");
+        favouriteMovies.remove(title);
+        System.out.println(title + " was removed to the favourite list");
         return true;
     }
 
