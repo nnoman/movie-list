@@ -1,6 +1,7 @@
 package test;
 
 import model.Movie;
+import model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import service.MovieService;
@@ -35,12 +36,19 @@ public class MovieServiceTest {
 
     @Test
     public void testSearchMovieByKeyword() {
-        List<Movie> movieList = movieService.getMovieList();
-        List<Movie> result = movieService.searchMovies("Action");
-        for (Movie movie : result) {
-            System.out.println(movie.toString());
+        List<String> result = movieService.searchMovies(movieService.getMovieList(), "Action");
+        for (String movieName : result) {
+            System.out.println(movieName);
         }
         assertNotNull(result);
+    }
+
+    @Test
+    public void testAddRemoveMovieToUserFavourites() {
+        User user = new User();
+        user.setEmail("test@test.com");
+        assertTrue(movieService.addMovieToUserFavourites(movieService.getMovieByTitle("Inception"), user));
+        assertTrue(movieService.removeMovieToUserFavourites(movieService.getMovieByTitle("Inception"), user));
     }
 
 }

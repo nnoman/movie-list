@@ -11,4 +11,12 @@ import java.util.List;
 public class User {
     private String email;
     private List<Movie> favouriteMovies = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", favouriteMovies=" + favouriteMovies +
+                '}';
+    }
 }

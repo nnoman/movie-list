@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import model.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -74,13 +75,46 @@ public class MovieService {
     }
 
 
-    public List<Movie> searchMovies(String keyword) {
+    public List<String> searchMovies(List<Movie> movieList, String keyword) {
         return movieList.stream()
                 .filter(movie -> movie.getTitle().toLowerCase().contains(keyword.toLowerCase())
                     || movie.getCategory().toLowerCase().contains(keyword.toLowerCase()) ||
                         movie.getCasts().stream()
                                 .anyMatch(cast -> cast.toLowerCase().contains(keyword.toLowerCase())))
-                .sorted((m1, m2) -> m1.getTitle().compareTo(m2.getTitle()))
+                .sorted((m1, m2) -> m1.getTitle().toLowerCase().compareTo(m2.getTitle().toLowerCase()))
+                .map(Movie::getTitle)
                 .collect(Collectors.toList());
     }
+
+    public Movie getMovieByTitle(String title) {
+        for (Movie movie : movieList) {
+            if (movie.getTitle().toLowerCase().contains(title.toLowerCase())) {
+                return movie;
+            }
+        }
+        return null;
+    }
+
+    public Boolean addMovieToUserFavourites(Movie movie, User user) {
+        List<Movie> favouriteMovies = user.getFavouriteMovies();
+        if(favouriteMovies.contains(movie)) {
+            System.out.println(movie.getTitle() + " is already in the favourite list");
+            return false;
+        }
+        favouriteMovies.add(movie);
+        System.out.println(movie.getTitle() + " was added to the favourite list");
+        return true;
+    }
+
+    public Boolean removeMovieToUserFavourites(Movie movie, User user) {
+        List<Movie> favouriteMovies = user.getFavouriteMovies();
+        if(!favouriteMovies.contains(movie)) {
+            System.out.println(movie.getTitle() + " is not in the favourite list");
+            return false;
+        }
+        favouriteMovies.remove(movie);
+        System.out.println(movie.getTitle() + " was removed to the favourite list");
+        return true;
+    }
+
 }
