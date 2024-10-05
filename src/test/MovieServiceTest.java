@@ -1,10 +1,10 @@
 package test;
 
-import model.Movie;
-import model.User;
+import main.java.model.Movie;
+import main.java.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import service.MovieService;
+import main.java.service.MovieService;
 
 import java.util.List;
 

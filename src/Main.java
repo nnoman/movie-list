@@ -1,7 +1,7 @@
-import model.Movie;
-import model.User;
-import service.MovieService;
-import service.UserService;
+import main.java.model.Movie;
+import main.java.model.User;
+import main.java.service.MovieService;
+import main.java.service.UserService;
 
 import java.util.List;
 import java.util.Objects;

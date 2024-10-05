@@ -1,8 +1,8 @@
-package service;
+package main.java.service;
 
 import lombok.Getter;
 import lombok.Setter;
-import model.Movie;
+import main.java.model.Movie;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import model.User;
+import main.java.model.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -37,7 +37,7 @@ public class MovieService {
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String inputLine;
-                StringBuffer response = new StringBuffer();
+                StringBuilder response = new StringBuilder();
 
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);

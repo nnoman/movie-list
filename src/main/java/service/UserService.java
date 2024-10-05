@@ -1,6 +1,6 @@
-package service;
+package main.java.service;
 
-import model.User;
+import main.java.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class UserService {
     List<User> users;
     public UserService() {
-        users = new ArrayList<User>();
+        users = new ArrayList<>();
     }
 
     public User registerUser(String email) {
